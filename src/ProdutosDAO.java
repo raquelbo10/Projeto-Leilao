@@ -23,11 +23,11 @@ public class ProdutosDAO {
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
     public void cadastrarProduto (ProdutosDTO produto){
-       
-          conn = new conectaDAO().connectDB();
+       conectaDAO conecta = new conectaDAO();
+          conn =  conecta.connectDB();
                PreparedStatement ps = null;
            try{
-           ps = conn.prepareStatement("INSERT INTO uc11(nome, valor, status) VALUES(?,?,?)");
+           ps = conn.prepareStatement("INSERT INTO produtos (nome, valor, status) VALUES(?,?,?)");
            ps.setString(1, produto.getNome());
            ps.setInt(2, produto.getValor());
            ps.setString(3, produto.getStatus());
