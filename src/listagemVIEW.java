@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -19,6 +20,7 @@ public class listagemVIEW extends javax.swing.JFrame {
     public listagemVIEW() {
         initComponents();
         listarProdutos();
+        id_produto_venda.setEnabled(false);
     }
 
     /**
@@ -54,6 +56,11 @@ public class listagemVIEW extends javax.swing.JFrame {
                 "ID", "Nome", "Valor", "Status"
             }
         ));
+        listaProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaProdutosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listaProdutos);
 
         jLabel1.setFont(new java.awt.Font("Lucida Fax", 0, 18)); // NOI18N
@@ -137,11 +144,16 @@ public class listagemVIEW extends javax.swing.JFrame {
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         String id = id_produto_venda.getText();
+        if (id != null){
+         ProdutosDAO produtosdao = new ProdutosDAO();
+        produtosdao.venderProdutos(Integer.parseInt(id));
+        id_produto_venda.setText("");
+        listarProdutos();               
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Por favor, selecione um registro.");
+        }
         
-        ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -153,6 +165,21 @@ public class listagemVIEW extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
+    private void listaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaProdutosMouseClicked
+        // TODO add your handling code here:
+        if(getIndice() != -1){
+            id_produto_venda.setText(listaProdutos.getValueAt(getIndice(), 0).toString());
+        }
+        
+    }//GEN-LAST:event_listaProdutosMouseClicked
+public int getIndice(){
+    int indice = listaProdutos.getSelectedRow();
+    if(indice > -1){
+        return indice;
+    }else{
+    return -1;}
+    
+}
     /**
      * @param args the command line arguments
      */
