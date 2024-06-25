@@ -88,8 +88,8 @@ public class ProdutosDAO {
           conn =  conecta.connectDB();
                PreparedStatement ps = null;
            try{
-           ps = conn.prepareStatement("SELECT FROM produtos WHERE status = vendido");
-          
+           ps = conn.prepareStatement("SELECT*FROM produtos WHERE status = ?");
+          ps.setString(1, "Vendido");
            resultset = ps.executeQuery();
            while(resultset.next()){
               ProdutosDTO produto = new ProdutosDTO();
@@ -97,7 +97,7 @@ public class ProdutosDAO {
                produto.setNome(resultset.getString("nome"));
                produto.setValor(resultset.getInt("valor"));
                produto.setStatus(resultset.getString("status"));
-               listagem.add(produto);
+               lista.add(produto);
            }
         
         return lista;
